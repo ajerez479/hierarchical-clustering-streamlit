@@ -9,6 +9,7 @@ st.title("Hierarchical Clustering App")
 # =========================
 # DATA INPUT
 # =========================
+"""
 option = st.radio("Choose data source:", ["Upload CSV", "Use sample data"])
 
 if option == "Upload CSV":
@@ -21,6 +22,13 @@ if option == "Upload CSV":
 
 else:
     df = pd.read_csv("data.csv")
+
+"""
+uploaded_file = st.file_uploader("Upload your dataset", type=["csv"])
+if uploaded_file is not None:
+    df = pd.read_csv(uploaded_file)
+else:
+    st.stop()
 
 st.subheader("Dataset Preview")
 st.dataframe(df.head())
