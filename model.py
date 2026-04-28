@@ -16,7 +16,7 @@ def preprocess_data(df, selected_features):
     scaler = StandardScaler()
     encoder = LabelEncoder()
     for col in numerical:
-      X[col] = scaler.fit_transform(X[col])
+      X[col] = scaler.fit_transform(X[[col]])
     for col in categorical:
       X[col] = encoder.fit_transform(X[col])
     return X
