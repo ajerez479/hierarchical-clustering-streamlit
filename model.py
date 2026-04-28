@@ -9,18 +9,20 @@ def preprocess_data(df, selected_features):
     X = df[selected_features].copy()
 
     # Keep only numeric columns
-    numerical = X.select_dtypes(include=["int64", "float64"])
-    categorical = X.select_dtypes(include=["object"])
+    numerical = X.select_dtypes(include=["int64", "float64"]).columns
+    categorical = X.select_dtypes(include=["object"]).columns
    
 
     scaler = StandardScaler()
     encoder = LabelEncoder()
-    X[numerical] = scaler.fit_transform(X[numerical])
-    X[categorical] = encoder.fit_transform(X[categorical])
+    for col in numerical:
+      X[col] = scaler.fit_transform(X[col])
+    for col in categorical:
+      X[col] = encoder.fit_transform(X[col])
     return X
 
 
-def train_hierarchical(X, n_clusters,linkage='ward'):
+def hierarchical_model(X, n_clusters,linkage='ward'):
     """
     Train Agglomerative Clustering
     """
@@ -41,8 +43,8 @@ def cluster_new_point(df, selected_features, new_point, n_clusters):
     X = pd.concat([X, new_df], ignore_index=True)
 
     # Keep only numeric columns
-    numerical = X.select_dtypes(include=["int64", "float64"])
-    categorical = X.select_dtypes(include=["object"])
+    numerical = X.select_dtypes(include=["int64", "float64"]).columns
+    categorical = X.select_dtypes(include=["object"]).columns
    
 
     scaler = StandardScaler()
