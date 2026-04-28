@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 
+from sklearn.metrics import silhouette_score, davies_bouldin_score
 from model import preprocess_data, hierarchical_model
 
 st.title("Hierarchical Clustering App")
@@ -50,6 +51,8 @@ df["Cluster"] = labels
 
 st.subheader("Clustered Data")
 st.dataframe(df)
+st.write("Silhouette Score:", silhouette_score(X, labels))
+st.write("Davies-Bouldin Score:", davies_bouldin_score(X, labels))
 
 # =========================
 # VISUALIZATION
