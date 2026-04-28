@@ -9,21 +9,7 @@ st.title("Hierarchical Clustering App")
 # =========================
 # DATA INPUT
 # =========================
-"""
-option = st.radio("Choose data source:", ["Upload CSV", "Use sample data"])
 
-if option == "Upload CSV":
-    uploaded_file = st.file_uploader("Upload your dataset", type=["csv"])
-    
-    if uploaded_file is not None:
-        df = pd.read_csv(uploaded_file)
-    else:
-        st.stop()
-
-else:
-    df = pd.read_csv("data.csv")
-
-"""
 uploaded_file = st.file_uploader("Upload your dataset", type=["csv"])
 if uploaded_file is not None:
     df = pd.read_csv(uploaded_file)
@@ -36,11 +22,11 @@ st.dataframe(df.head())
 # =========================
 # FEATURE SELECTION
 # =========================
-numeric_columns = df.select_dtypes(include=["int64", "float64"]).columns.tolist()
+#numeric_columns = df.select_dtypes(include=["int64", "float64"]).columns.tolist()
 
 selected_features = st.multiselect(
     "Select features for clustering",
-    numeric_columns
+    df.columns.tolist()
 )
 
 if len(selected_features) < 2:
@@ -55,8 +41,8 @@ n_clusters = st.slider("Number of clusters", 2, 10, 3)
 # =========================
 # MODEL TRAINING
 # =========================
-X, X_scaled, scaler = preprocess_data(df, selected_features)
-model, labels = train_hierarchical(X_scaled, n_clusters)
+X = preprocess_data(df, selected_features)
+model, labels = train_hierarchical(X, n_clusters)
 
 df["Cluster"] = labels
 
