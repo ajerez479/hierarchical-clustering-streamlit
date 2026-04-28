@@ -1,5 +1,5 @@
 import pandas as pd
-from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import StandardScaler, LabelEncoder
 from sklearn.cluster import AgglomerativeClustering
 
 def preprocess_data(df, selected_features):
@@ -14,10 +14,9 @@ def preprocess_data(df, selected_features):
    
 
     scaler = StandardScaler()
-    X_scaled = scaler.fit_transform(X[numerical])
-    X_encoded = pd.get_dummies(X[categorical])
-    X = pd.concat([X_scaled, X_encoded], axis=1)
-
+    encoder = LabelEncoder()
+    X[numerical] = scaler.fit_transform(X[numerical])
+    X[categorical] = encoder.fit_transform(X[categorical])
     return X
 
 
