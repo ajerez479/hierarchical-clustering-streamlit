@@ -28,6 +28,8 @@ selected_features = st.multiselect(
     "Select features for clustering",
     df.columns.tolist()
 )
+# multiple option with unique selection
+
 
 if len(selected_features) < 2:
     st.warning("Select at least 2 features")
@@ -37,12 +39,12 @@ if len(selected_features) < 2:
 # PARAMETERS
 # =========================
 n_clusters = st.slider("Number of clusters", 2, 10, 3)
-
+linkage = st.selectbox("Select linkage",['ward','complete','single'])
 # =========================
 # MODEL TRAINING
 # =========================
 X = preprocess_data(df, selected_features)
-model, labels = train_hierarchical(X, n_clusters)
+model, labels = train_hierarchical(X, n_clusters, linkage=linkage)
 
 df["Cluster"] = labels
 
