@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 from sklearn.metrics import silhouette_score, davies_bouldin_score
 from model import preprocess_data, hierarchical_model
 
-st.title("Hierarchical Clustering App")
+st.title("Clustering App")
 
 # =========================
 # DATA INPUT
@@ -19,6 +19,7 @@ else:
 
 st.subheader("Dataset Preview")
 st.dataframe(df.head())
+
 
 # =========================
 # FEATURE SELECTION
@@ -51,8 +52,14 @@ df["Cluster"] = labels
 
 st.subheader("Clustered Data")
 st.dataframe(df)
-st.write("Silhouette Score:", silhouette_score(X, labels))
-st.write("Davies-Bouldin Score:", davies_bouldin_score(X, labels))
+
+
+# =========================
+# EVALUATION
+# =========================
+st.subheader("Evaluation Metrics")
+st.metric(label="Silhouette Score", value=silhouette_score(X, labels))
+st.metric(label="Davies-Bouldin Score", value=davies_bouldin_score(X, labels))
 
 # =========================
 # VISUALIZATION
