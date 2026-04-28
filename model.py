@@ -46,9 +46,10 @@ def cluster_new_point(df, selected_features, new_point, n_clusters):
    
 
     scaler = StandardScaler()
-    X_scaled = scaler.fit_transform(X[numerical])
-    X_encoded = pd.get_dummies(X[categorical])
-    X = pd.concat([X_scaled, X_encoded], axis=1)
+    encoder = LabelEncoder()
+    X[numerical] = scaler.fit_transform(X[numerical])
+    X[categorical] = encoder.fit(X[categorical])
+    
 
     model = AgglomerativeClustering(n_clusters=n_clusters)
     labels = model.fit_predict(X)
