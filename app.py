@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 
-from model import preprocess_data, train_hierarchical, cluster_new_point
+from model import preprocess_data, hierarchical_model
 
 st.title("Hierarchical Clustering App")
 
@@ -44,7 +44,7 @@ linkage = st.selectbox("Select linkage",['ward','complete','single'])
 # MODEL TRAINING
 # =========================
 X = preprocess_data(df, selected_features)
-model, labels = train_hierarchical(X, n_clusters, linkage=linkage)
+model, labels = hierarchical_model(X, n_clusters, linkage=linkage)
 
 df["Cluster"] = labels
 
@@ -67,17 +67,3 @@ if len(selected_features) == 2:
     st.pyplot(fig)
 else:
     st.info("Select exactly 2 features for visualization")
-
-# =========================
-# NEW POINT (ADVANCED)
-# =========================
-st.subheader("Assign New Data Point")
-
-new_point = []
-for feature in selected_features:
-    val = st.number_input(f"{feature}", value=0.0)
-    new_point.append(val)
-
-if st.button("Assign Cluster"):
-    cluster = cluster_new_point(df, selected_features, new_point, n_clusters)
-    st.success(f"Assigned to cluster: {cluster}")
